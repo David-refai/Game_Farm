@@ -1,24 +1,29 @@
 package com.company.Food;
 
 
+import java.io.Serializable;
 
-public abstract class Food {
-    private String namesFood;
+public abstract class Food implements Serializable {
+
+    protected String namesFood;
     private double price;
     public int Kg ;
     private int quantity;
-
     public Food(String namesFood, int price) {
-        Kg = 1;
+        Kg = 0;
         this.namesFood = namesFood;
         this.price = price;
+
     }
 
 
     public void setKg(int kg) {
     if (kg >= 1) {
-        this.Kg *= kg;
-}
+
+            this.Kg += kg;
+        }
+
+else
 
         System.out.println("You shopped no thing ");
     }

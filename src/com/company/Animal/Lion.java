@@ -3,8 +3,6 @@ package com.company.Animal;
 import com.company.Food.Food;
 import com.company.Food.Meat;
 
-import java.util.ArrayList;
-
 public class Lion extends Animal{
 
     public Lion(String animalName, String gender) {
@@ -12,7 +10,8 @@ public class Lion extends Animal{
         super.price = 35;
         this.Type = "Lion";
         super.Max_age = 10;
-        this.Max_breed = 2;
+        this.Max_breed = 4;
+        possibleBreed = 1;
 
 
     }
@@ -22,23 +21,19 @@ public class Lion extends Animal{
     public boolean ICanEat(Food food ) {
 
         if (!isLive()) {
-            System.out.println("I cant eat, I an dei");
+            System.out.println("I cannot eat, I am dei");
         }
         if (food instanceof Meat) {
-
-            System.out.println("Iam eating....");
+            if (food.Kg >= 3) {
+            System.out.println("I am eating....");
             this.health +=10;
             return true;
-
+            }else System.err.println("It is not enough food, I need at least 3 kilograms ");
+            return false;
         }else
-            System.out.println("I cannot eat this try again....");
+            System.err.println("this food is not appropriate.....");
         return false;
     }
-
-
-
-
-
 
     }
 

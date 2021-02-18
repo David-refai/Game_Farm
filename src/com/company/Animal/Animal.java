@@ -1,36 +1,39 @@
 package com.company.Animal;
-
 import com.company.Food.Food;
+import com.company.help.Player;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-import static java.lang.Integer.parseInt;
 
-public abstract class Animal {
+public abstract class Animal implements Serializable {
+    protected int possibleBreed; //number of childrens in one breed
      protected int health;
     protected String animalName;
     public String gender;
-    protected int age;
     protected int Max_age;
-    protected int currentAge;
+    protected int Age;
     public double price;
-    protected boolean live ;
     protected String Type;
    protected int Max_breed;
 
 
-
-
-     public Animal(String animalName, String gender) {
+    public Animal(String animalName, String gender) {
          health=100;
-         currentAge=1;
-         live = true;
+         Age = 2;
         this.animalName = animalName;
         this.gender= gender;
+    }
+    public boolean isSick() {
+        if (health < 20)
+           return true;
+        else
+            return false;
 
-     }
+    }
 
-
+    public int getPossibleBreed() {
+        return possibleBreed ;
+    }
 
 
      public abstract boolean ICanEat(Food food);
@@ -39,43 +42,35 @@ public abstract class Animal {
          return Max_breed;
      }
 
-    public boolean setMax_breed(int max_breed) {
+    public void decreaseMaxBreed(int m) {
          if(Max_breed !=0) {
-             Max_breed -= max_breed;
-             return true;
-         }else
-        return false;
+             Max_breed -= m;
+         }
     }
 
     public String getType() {
          return Type;
      }
 
-     public void setAnimalName(String animalName) {
-
-        this.animalName = animalName;
-    }
 
     public String getAnimalName() {
         return this.animalName;
     }
 
-    public int getCurrentAge() {
-        return currentAge;
-    }
-    public void setHealth1(int health) {
-         this.health = (int) Math.round(this.health - (health/100d) * this.health);
+
+    public void decreaseHealth(int h) {
+         health = (health - health*h/100);
     }
 
     public void increaseHealth(int health) {
-        if (this.currentAge == Max_age){
+        if (this.Age == Max_age){
             System.out.println("It is max age");
         }
         else  {
             this.health += health;
-            if (this.health == 120)
-                this.currentAge +=1;
-                System.out.println("Congratulation your animal become  "+getCurrentAge()+ " years");
+            if (this.health == 140)
+                Age += 1;
+                System.out.println("Congratulation your animal become  "+ getAge()+ " years");
                 this.health = 100;
         }
      }
@@ -87,21 +82,14 @@ public abstract class Animal {
          return gender;
      }
 
-     public void setGender(String gender) {
-         this.gender = gender;
-     }
 
-     public int getAge() {
-        return age;
+    public int getAge() {
+        return Age;
     }
 
-    public int getMax_age() {
-        return Max_age;
-    }
 
-    public void setPrice(double price) {
-        this.price = (int) Math.round(this.price - (price/100d) * this.price);
-
+    public void decreasePrice(int p) {
+        price = (int)(price - price*p/100);
     }
 
     public double getPrice() {
@@ -109,7 +97,11 @@ public abstract class Animal {
     }
 
     public boolean isLive() {
-        return live;
+         if (health <= 0 )
+
+            return false;
+         else
+            return true;
     }
 
 

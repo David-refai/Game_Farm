@@ -1,12 +1,15 @@
 package com.company.help;
 
+import com.company.Animal.Animal;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Game {
+public class Game implements Serializable {
     public ArrayList<Player> players = new ArrayList<>() ;
     private final Scanner input = new Scanner(System.in);
-    private  int rounds;
+    protected int rounds;
 
 
     public Game() {
@@ -27,6 +30,30 @@ public class Game {
                 Store.downHealth(currentPlayer);
             }
         }
+
+        //the end
+
+        Player max_player = null ;
+        double max_money = 0;
+
+        for ( Player player : players) {
+
+            double current_money = player.getMoney();
+
+            for (Animal animal : player.animals){
+                current_money += animal.getPrice();
+                player.animals.remove(animal);
+            }
+            if (current_money > max_money)
+                max_player = player;
+        }
+
+        if (max_player !=null)
+            System.out.println("The Winner is :"+max_player.getName()+" Budget = "+max_player.getMoney());
+        else
+            System.out.println("no Winner !");
+
+
     }
 
     public void firstMenu(Player player){
@@ -50,14 +77,17 @@ public class Game {
             case "1" -> Store.buyAnimal(player);
             case "2" -> Store.buyFoods(player);
             case "3" -> firstMenu(player);
+            default -> System.out.println("It is not matching");
+
         }
+        firstMenu(player);
     }
 
-public void playerName() {
-    System.out.println("How many players 1 - 4 ");
-    int  players_count = 0;
-    while(true) {
-        try {
+        public void playerName() {
+        System.out.println("How many players 1 - 4 ");
+        int  players_count;
+        while(true) {
+                  try {
             players_count = input.nextInt();
             if(players_count >4 || players_count<0)
                 throw new Exception();
