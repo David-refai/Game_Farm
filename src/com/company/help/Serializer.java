@@ -20,8 +20,11 @@ import java.io.ObjectOutputStream;
                 out.writeObject(data);
                 out.close();
                 file.close();
+                System.out.println("Successfully saved game!");
                 return true; // everything went fine
+
             }
+
             catch(Exception error){
                 return false; // we couldn't complete the serialization
             }
@@ -31,12 +34,12 @@ import java.io.ObjectOutputStream;
             try {
                 var file = new FileInputStream(filePath);
                 var in = new ObjectInputStream(file);
-                var data = in.readObject();
+                var data =(Game) in.readObject();
                 in.close();
                 file.close();
                 return data;
             }
-            catch(Exception error){
+            catch(Exception error){System.out.println("we couldn't complete deserialization");
                 return false; // we couldn't complete deserialization
             }
         }

@@ -11,12 +11,12 @@ public class Dialogs {
         System.out.println("\n".repeat(2));
     }
 
-    public static void menuForAnimals(int title, String ...options){
+    public static void menuForAnimals( String ...options){
         // print the menu
 
         clear();
        System.out.println("-".repeat(50));
-        System.out.println(title);
+       // System.out.println(title);
         System.out.println("-".repeat(50));
         var counter = 1;
         for(var option : options){

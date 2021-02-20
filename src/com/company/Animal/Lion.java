@@ -3,6 +3,8 @@ package com.company.Animal;
 import com.company.Food.Food;
 import com.company.Food.Meat;
 
+import java.util.Random;
+
 public class Lion extends Animal{
 
     public Lion(String animalName, String gender) {
@@ -11,7 +13,8 @@ public class Lion extends Animal{
         this.Type = "Lion";
         super.Max_age = 10;
         this.Max_breed = 4;
-        possibleBreed = 1;
+        this.possibleBreed = 1;
+        this.veterinarian = 200;
 
 
     }
@@ -19,15 +22,18 @@ public class Lion extends Animal{
 
     @Override
     public boolean ICanEat(Food food ) {
-
-        if (!isLive()) {
-            System.out.println("I cannot eat, I am dei");
-        }
+        Random r = new Random();
         if (food instanceof Meat) {
-            if (food.Kg >= 3) {
+            if (food.getKg() >= 3) {
+                float foodModifier = food.getKg() / 3f;
             System.out.println("I am eating....");
-            this.health +=10;
-            return true;
+            int increase = (int) (r.nextInt(21)+10* foodModifier);
+            health += increase;
+            if (health > 100){
+                health= 100;
+                return true;
+            }
+
             }else System.err.println("It is not enough food, I need at least 3 kilograms ");
             return false;
         }else

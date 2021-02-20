@@ -1,6 +1,7 @@
 package com.company.Food;
 
 
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 public abstract class Food implements Serializable {
@@ -52,6 +53,12 @@ else
     public  double getPrice() {
 
         return this.price * getKg();
+    }
+    private void readObject(ObjectInputStream i){
+
+    }
+    private void writeObject(ObjectInputStream o){
+
     }
 
     }

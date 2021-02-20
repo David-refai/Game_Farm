@@ -1,38 +1,42 @@
 package com.company.Animal;
 
 import com.company.Food.Food;
-import com.company.Food.Grass;
+import com.company.Food.Meat;
+
+import java.util.Random;
 
 public class Cat extends Animal {
 
     public Cat(String animalName, String gender) {
         super(animalName, gender);
-        price = 100;
-        Type = "Cat";
-        Max_age = 5;
-        Max_breed = 4;
-        possibleBreed = 5;
+        this.price = 100;
+        this.Type = "Cat";
+        this.Max_age = 5;
+        this.Max_breed = 4;
+        this.possibleBreed = 5;
+        this.veterinarian = 350;
     }
+
 
     @Override
     public boolean ICanEat(Food food) {
-
-        if (!isLive()) {
-            System.out.println("I cannot eat, I am dei");
-        }
-        if (food instanceof Grass) {
-            if (food.Kg >= 1) {
+        Random r = new Random();
+        if (food instanceof Meat) {
+            if (food.getKg() >= 1) {
+                float foodModifier = food.getKg();
                 System.out.println("Iam eating....");
-                this.health +=10;
-                return true;
-            }else System.err.println("It is not enough food, I need at least 1 kilograms ");
-        }else
-            System.out.println("this food is not appropriate.....");
-        return false;
-    }
+                int increase = (int) (r.nextInt(21) + 10 * foodModifier);
+                setHealth(increase);
+                if (getHealth() > 100) {
+                    health = 100;
+                    return true;
+                }
 
-
-
+                } else System.err.println("It is not enough food, I need at least 1 kilograms ");
+            } else
+                System.out.println("this food is not appropriate.....");
+            return false;
+        }
 
 
 
