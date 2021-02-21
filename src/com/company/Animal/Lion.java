@@ -3,16 +3,17 @@ package com.company.Animal;
 import com.company.Food.Food;
 import com.company.Food.Meat;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Lion extends Animal{
+public class Lion extends Animal implements Serializable {
 
     public Lion(String animalName, String gender) {
         super(animalName, gender);
         super.price = 35;
         this.Type = "Lion";
         super.Max_age = 10;
-        this.Max_breed = 4;
+        this.max_breed = 4;
         this.possibleBreed = 1;
         this.veterinarian = 200;
 

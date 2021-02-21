@@ -5,7 +5,6 @@ import com.company.Food.Food;
 import java.io.Serializable;
 import java.util.Random;
 import java.util.Scanner;
-
 import static java.lang.Integer.*;
 
 
@@ -14,8 +13,14 @@ public class Store implements Serializable {
         private static final Scanner input = new Scanner(System.in);
         private static String gender;
 
-        public static void sellAnimal (Player player, Game game){
 
+
+/*
+*This method of selling animal to the store that the player possess
+*
+ */
+        public static void sellAnimal (Player player, Game game){
+            String choose1;
             if (player.animals.isEmpty()) {
                 System.err.println("Buy animals if you want to use this option!");
                 game.firstMenu(player);
@@ -23,11 +28,11 @@ public class Store implements Serializable {
                 player.printPlayersStoreAnimals();
 
 
-                String choose1 = "";
-                   while (!choose1.equals( String.valueOf(player.animals.size()-1))) {
-                       System.out.println("Enter number of an animal: ");
-                       choose1 = input.next();
-                   }
+                do {
+                    System.out.println("Enter number of an animal: ");
+                    choose1 = input.next();
+                } while (!"1234567890".contains(choose1));
+                //Conditions of selling does not allow the sell of an animal with a health below 40.
 
                     if (player.animals.get(parseInt(choose1) - 1).getHealth() > 40) {
                         player.addMoney(player.animals.get(parseInt(choose1) - 1).getPrice());
@@ -37,64 +42,10 @@ public class Store implements Serializable {
                     }else System.err.println("it must health over 40%");
             }
         }
-//        public static void breedAnimal (Player player, Game game){
-//
-//            if (player.animals.isEmpty()) {
-//                System.err.println("Buy animals if you want to use this option!");
-//                game.firstMenu(player);
-//            }
-//            player.printPlayersStoreAnimals();
-//            System.out.println("Enter first Animal: ");
-//            int choose1 = input.nextInt();
-//            System.out.println("Enter second Animal:");
-//            int choose2 = input.nextInt();
-//            int age1 = player.animals.get(choose1 - 1).getAge();
-//            int age2 = player.animals.get(choose2 - 1).getAge();
-//            if (age1 < 2 && age2 < 2) {
-//                System.err.println("Animals cannot mate, they are younger than 2 years");
-//                return;
-//            }
-//            String gender1 = player.animals.get(choose1 - 1).getGender();
-//            String gender2 = player.animals.get(choose2 - 1).getGender();
-//
-//            String type1 = player.animals.get(choose1 - 1).getType();
-//            String type2 = player.animals.get(choose2 - 1).getType();
-//
-//            if (!gender1.equals(gender2) && type1.equals(type2)) {
-//                //cannot breed more than max_breed
-//                if (player.animals.get(choose1-1).getMax_breed() > 0) {
-//                    int bound = player.animals.get(choose1 - 1).getPossibleBreed();
-//                    Random r = new Random();
-//                    int breed = r.nextInt(bound + 1);
-//
-//                    for (int i = 0; i < breed; i++) {
-//                        String randGender = animalsGenderRandom();
-//                        String randName = chooseAnimalName();
-//                        switch (type1) {
-//                            case "Lion" ->  player.animals.add( new Lion(randName, randGender));
-//                            case "Sheep" -> player.animals.add( new Sheep(randName, randGender));
-//                            case "Cow" -> player.animals.add( new Cow(randName, randGender));
-//                            case "Rabbit" -> player.animals.add( new Rabbit(randName, randGender));
-//                            case "Cat" -> player.animals.add( new Cat(randName, randGender));
-//                        }
-//                    }
-//                    if (breed != 0)
-//                        System.out.println("breed successfully :)");
-//                    else
-//                        System.out.println("good luck next time");
-//
-//                    player.animals.get(choose1-1).decreaseMaxBreed(1);
-//                    player.printPlayersStoreAnimals();
-//                }else {
-//                    System.out.println("you cannot breed any more");
-//                }
-//            }else
-//                System.err.println("They are not matching ");
-//        }
-//
 
-
+//The beginning of the method is that if there is no animal or no food the player will be alerted and returned
         public static void feedAnimal (Player player, Game game){
+            String choose1 ,choose2 ,choose3 ;
 
             if (player.animals.isEmpty()) {
                 System.err.println("Buy animals if you want to use this option!");
@@ -114,14 +65,25 @@ public class Store implements Serializable {
                    return;
                }
 
-            player.printPlayersStoreAnimals();
-            System.out.println("Enter number  Animal: ");
-            String choose1 = input.next();
-            player.printPlayersStoreFoods();
-            System.out.println("Enter number of food:");
-            String choose2 = input.next();
-            System.out.println("Enter how many kg of food:");
-            String choose3 = input.next();
+
+                do {
+                    player.printPlayersStoreAnimals();
+                    System.out.println("Enter number  Animal: ");
+                    choose1 = input.next();
+                }while (!"1234567890".contains(choose1) ||parseInt(choose1)!= player.animals.size()-1);
+                do {
+                    player.printPlayersStoreFoods();
+                    System.out.println("Enter number of food:");
+                    choose2 = input.next();
+                }while (!"1234567890".contains(choose2) || parseInt(choose2)!= player.foods.size()-1);
+                do {
+                    System.out.println("Enter how many kg of food:");
+                    choose3 = input.next();
+                }while (!"1234567890".contains(choose3) );
+
+
+//Invoke of method I can eat overrides all the classes of animals
+//if the food is sufficient for the animal the weight of the animal in kilograms
 
             if (player.animals.get(parseInt(choose1) - 1).ICanEat(player.foods.get(parseInt(choose2) - 1)))
                 player.foods.get(parseInt(choose2) - 1).Kg -= parseInt(choose3);
@@ -130,7 +92,7 @@ public class Store implements Serializable {
 
         }
 
-
+// Purchase of food
         public static void buyFoods (Player player){
             Dialogs.menuForAnimals( "Carrot\t\t\t\t\t\t\t15",
                     "Meat\t\t\t\t\t\t\t\t25", "Grass\t\t\t\t\t\t\t10");
@@ -143,10 +105,9 @@ public class Store implements Serializable {
                 case "3" -> quantityOfFoods(player,player.foods.get(2),parseInt(choose1)-1);
                 default -> System.out.println("It is not matching");
             }
-            player.printPlayersStoreFoods();
+            player.printPlayersStoreFoods(); // Purchased foods is added to a list of a player
       }
-
-
+// The money of the player is controlled with the quantity food the player can purchase
         public static void quantityOfFoods (Player player, Food food, int index) {
             System.out.println("How many kilo would have?");
             player.foods.get(index).setQuantity(parseInt(input.next()));
@@ -185,6 +146,7 @@ public class Store implements Serializable {
                 quantity = input.next();
             }  while(!"1234567890".contains(quantity));
 
+// Instance calculates the price compatibility of the purchased object with the below
                 double[] mat = new double[]{35, 35, 100, 85, 25};
                 double price = mat[Integer.parseInt(type) - 1];
                 var total_price = parseInt(quantity) * price;
@@ -208,7 +170,8 @@ public class Store implements Serializable {
                 }
 
         }
-
+//This method invokes when a player chooses purchases an animal
+// and allows the player to choose between the gender of the animal that the players chooses to purchase above
         public static String chooseGender () {
             System.out.println("Which gender would you have\n{1} female   {2}male");
             switch (input.next()) {
@@ -217,20 +180,22 @@ public class Store implements Serializable {
                 case "2":
                     return "Male";
                 default:
-                    System.err.println("It is not matching");
+                    System.err.println("Invalid");
                     return chooseGender();
             }
         }
+        //The same method of choosing a gender gives the player two options of naming the animal
+    // One name is chosen by players choice and the second name is generated automatically
         public static String chooseAnimalName () {
 
-              System.out.println("Would like write name press [1] OR Automatic name [2] ");
-              input.next();
+              System.out.println("Would you like to write a name press [1] OR Automatically generated name [2] ");
+
              if ("1".equals(input.next())) {
                  return  input.next();
-          }else
-               if (gender.equals("Female"))
+                 // Method of name choosing is generated automatically by the gender type name
+          }else if (gender.equals("Female"))
             return Store.femaleNames();
-               else
+             else
             return Store.maleNames();
     }
 
@@ -252,7 +217,7 @@ public class Store implements Serializable {
                 "Gabriel", "Isak", "August", "Loui", "Benjamin", "Sam", "Josef", "Ebbe", "Melvin", "Love",
                 "Olle", "Albin", "Henry", "Edvin", "Elton", "Emil", "Malte", "Vidar", "Gustav", "Jack", "Frank"
         };
-        return nameMale[new Random().nextInt(50) - 1 ];
+        return nameMale[new Random().nextInt(48)+1 ];
     }
 
     }

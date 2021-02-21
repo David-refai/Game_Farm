@@ -1,7 +1,9 @@
 package com.company.Food;
 
 
-public class Grass extends Food {
+import java.io.Serializable;
+
+public class Grass extends Food implements Serializable {
 
 
     public Grass(String namesFood, int price) {

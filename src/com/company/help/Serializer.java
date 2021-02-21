@@ -1,48 +1,44 @@
 package com.company.help;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*; // serialization/deserialization
 
-
-
- // serialization/deserialization
-
-    // A helper class to serialize and deserialize data structure
+// A helper class to serialize and deserialize data structure
 // (objects, array list of objects etc)
-    public class Serializer {
+public class Serializer {
+    private static Game game;
+    public Serializer() {
+        game = new Game();
 
-        static public boolean serialize(String filePath, Object data) {
-            try {
-                var file = new FileOutputStream(filePath);
-                var out = new ObjectOutputStream(file);
-                out.writeObject(data);
-                out.close();
-                file.close();
-                System.out.println("Successfully saved game!");
-                return true; // everything went fine
+    }
 
-            }
-
-            catch(Exception error){
-                return false; // we couldn't complete the serialization
-            }
+    static public boolean saveGame(String filePath) {
+        try {
+            var file = new FileOutputStream(filePath);
+            var out = new ObjectOutputStream(file);
+            out.writeObject(new Game().playerTurn());
+            out.close();
+            file.close();
+            System.out.println("Success's save");
+            return true; // everything went fine
         }
-
-        static public Object deserialize(String filePath){
-            try {
-                var file = new FileInputStream(filePath);
-                var in = new ObjectInputStream(file);
-                var data =(Game) in.readObject();
-                in.close();
-                file.close();
-                return data;
-            }
-            catch(Exception error){System.out.println("we couldn't complete deserialization");
-                return false; // we couldn't complete deserialization
-            }
+        catch(Exception error){
+            return false; // we couldn't complete the serialization
         }
+    }
 
-    
+    static public Object loadGame(String filePath){
+        try {
+            var file = new FileInputStream(filePath);
+            var in = new ObjectInputStream(file);
+            game = (Game) in.readObject();
+            in.close();
+            file.close();
+            System.out.println("loading Game");
+            return game.playerTurn();
+        }
+        catch(Exception error){
+            return false; // we couldn't complete deserialization
+        }
+    }
+
 }

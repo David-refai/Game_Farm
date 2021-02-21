@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 
 public abstract class Animal implements Serializable {
-    protected int possibleBreed; //number of childrens in one breed
+    protected int possibleBreed; //number of children in one breed
     public int health;
     protected String animalName;
     protected String gender;
@@ -15,7 +15,7 @@ public abstract class Animal implements Serializable {
     protected int Age;
     protected double price;
     protected String Type;
-    protected int Max_breed;
+    protected int max_breed;
     protected double healthValue;
     protected boolean sick;
     protected double veterinarian;
@@ -31,10 +31,8 @@ public abstract class Animal implements Serializable {
     }
 
 
-    public boolean isTreatment() {
+    public void isTreatment() {
             sick = false;
-
-            return true;
     }
 
 
@@ -62,15 +60,15 @@ public abstract class Animal implements Serializable {
     }
 
 
-    public abstract boolean ICanEat(Food food);
+    public abstract boolean ICanEat(Food food);// Abstract method when every animal can decides their foods
 
     public int getMax_breed() {
-        return Max_breed;
+        return max_breed;
     }
 
     public void decreaseMaxBreed(int m) {
-        if (Max_breed != 0) {
-            Max_breed -= m;
+        if (max_breed != 0) {
+            max_breed -= m;
         }
     }
 
@@ -87,15 +85,19 @@ public abstract class Animal implements Serializable {
     public void decreaseHealth(int h) {
         health = (health - health * h / 100) - 1;
 
+    }
+    public void increaseHealth(int health) {
 
+        this.health += health;
+        increaseHealthValue(health);
     }
 
     public void increaseAge(int a) {
         if (this.Age == Max_age) {
-            System.err.println( getAnimalName() + "  He has reached the top of age");
+            System.err.println( getAnimalName() + " The animal has reached the top of its age");
             decreaseHealthValue(a);
 
-
+// Every round the age increases and the value of the animal decreases
         } else {
             Age++;
             price--;
@@ -108,12 +110,12 @@ public abstract class Animal implements Serializable {
         healthValue = ((healthValue + healthValue) * p / 100) + 10;
     }
 
-    public void increaseHealth(int health) {
 
-        this.health += health;
-        increaseHealthValue(health);
-
-
+    public void decreaseHealthValue(int p) {
+        if (healthValue != 0)
+            healthValue = (int) (healthValue - healthValue * p / 100);
+        else
+            price = (int) (price - price * p / 100);
     }
 
     public int getHealth() {
@@ -129,14 +131,6 @@ public abstract class Animal implements Serializable {
         return Age;
     }
 
-
-    public void decreaseHealthValue(int p) {
-        if (healthValue != 0)
-            healthValue = (int) (healthValue - healthValue * p / 100);
-        else
-            price = (int) (price - price * p / 100);
-    }
-
     public double getPrice() {
         return price;
     }
@@ -145,7 +139,7 @@ public abstract class Animal implements Serializable {
         if (health != 0)
             return true;
         else
-            System.err.println(" I am out ...,the animal is -_- ");
+            System.err.println("The animal is dead -_- ");
         return false;
 
     }
@@ -158,15 +152,16 @@ public abstract class Animal implements Serializable {
 
         if (!sick) {
             int breed = (int) (Math.random() * 150) + 1;
-            if (breed <= 10 ) {
-                if (health < 50)
+            if (breed < 20 ) {
+                if (health < 100)
                     System.err.println(getAnimalName() + "  " + "is sick");
+            decreaseHealth(10);
                     return sick = true;
 
             } else
                 return sick = false;
         } else
-            System.err.println(getAnimalName() + "  " + "is sick");
+            System.err.println(getAnimalName() + "  " + "is still sick");
             return true;
 
     }
@@ -175,8 +170,9 @@ public abstract class Animal implements Serializable {
         if (!setSick() && health < 30) {
             System.err.println(animalName + " is hungry");
             return true;
-        }else
-        return false;
+        }
+        else
+            return false;
         }
     }
 
