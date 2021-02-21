@@ -76,35 +76,40 @@ public class Player implements Serializable {
     }
    // The method of breeding animal
     public void breedAnimal ( Game game){
-        String choose1 , choose2 ;
+        String choose1 = "", choose2 = "";
         if (animals.isEmpty()) {
             System.err.println("Buy an animal if you want to use this option!");
             game.firstMenu(this);
         }
        printPlayersStoreAnimals();
 
+try {
 
-        do {
-            System.out.println("Enter first animal");
-            choose1 = input.next();
 
-        } while (!"1234567890".contains(choose1));
+    do {
+        System.out.println("Enter first animal");
+        choose1 = input.next();
 
-        do {
+    } while (!"1234567890".contains(choose1) || parseInt(choose1) != animals.size()-1);
+
+    do {
         System.out.println("Enter second animal");
         choose2 = input.next();
-        } while (!"1234567890".contains(choose2));
+    } while (!"1234567890".contains(choose2) || parseInt(choose2) < animals.size());
+}catch (Exception ignored){}
         String gender1 = animals.get(parseInt(choose1)-1).getGender();
         String gender2 = animals.get(parseInt(choose2)-1).getGender();
 
         String type1 = animals.get(parseInt(choose1)-1).getType();
         String type2 = animals.get(parseInt(choose2)-1).getType();
+
         // The same type of animal and different gender with no max breed can give the player the chance
         // of the same breed of animal
         if (!gender1.equals(gender2) && type1.equals(type2)) {
         if (animals.get(parseInt(choose1)-1).getMax_breed()> 0 && animals.get(parseInt(choose1)-1).getMax_breed() > 0) {
 // It is randomly calculated the possible number of a breed the player can receive
         int bound = animals.get(parseInt(choose1)-1).getPossibleBreed();
+
         Random r = new Random();
         int breed = r.nextInt( bound + 1);
 

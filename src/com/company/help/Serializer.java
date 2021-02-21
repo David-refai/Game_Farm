@@ -15,7 +15,7 @@ public class Serializer {
         try {
             var file = new FileOutputStream(filePath);
             var out = new ObjectOutputStream(file);
-            out.writeObject(new Game().playerTurn());
+            out.writeObject(game);
             out.close();
             file.close();
             System.out.println("Success's save");
@@ -34,7 +34,7 @@ public class Serializer {
             in.close();
             file.close();
             System.out.println("loading Game");
-            return game.playerTurn();
+            return game;
         }
         catch(Exception error){
             return false; // we couldn't complete deserialization
