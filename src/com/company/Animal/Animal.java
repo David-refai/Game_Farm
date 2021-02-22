@@ -91,13 +91,17 @@ public abstract class Animal implements Serializable {
         this.health += health;
         increaseHealthValue(health);
     }
-
+// Every round the age increases  until the animal reach MAX of age
     public void increaseAge(int a) {
         if (this.Age == Max_age) {
             System.err.println( getAnimalName() + " The animal has reached the top of its age");
+            // When the age become mac, the health value decrease
             decreaseHealthValue(a);
 
-// Every round the age increases and the value of the animal decreases
+
+// When the age increases and the value of the animal decreases
+            
+            
         } else {
             Age++;
             price--;
