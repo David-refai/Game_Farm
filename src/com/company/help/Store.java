@@ -28,10 +28,11 @@ public class Store implements Serializable {
                 player.printPlayersStoreAnimals();
 
 
-                do {
+               try {
+
                     System.out.println("Enter number of an animal: ");
                     choose1 = input.next();
-                } while (!"1234567890".contains(choose1));
+
                 //Conditions of selling does not allow the sell of an animal with a health below 40.
 
                     if (player.animals.get(parseInt(choose1) - 1).getHealth() > 40) {
@@ -40,6 +41,9 @@ public class Store implements Serializable {
                         player.animals.remove(player.animals.get(parseInt(choose1) - 1));
                         System.out.println(" It is sold, Your Money " + player.getMoney());
                     }else System.err.println("it must health over 40%");
+               }catch (Exception e){
+                   System.err.println("It is not matching");
+               }
             }
         }
 
@@ -65,30 +69,33 @@ public class Store implements Serializable {
                    return;
                }
 
+               try {
 
-                do {
-                    player.printPlayersStoreAnimals();
-                    System.out.println("Enter number  Animal: ");
-                    choose1 = input.next();
-                }while (!"1234567890".contains(choose1) ||parseInt(choose1)!= player.animals.size()-1);
-                do {
-                    player.printPlayersStoreFoods();
-                    System.out.println("Enter number of food:");
-                    choose2 = input.next();
-                }while (!"1234567890".contains(choose2) || parseInt(choose2)!= player.foods.size()-1);
-                do {
-                    System.out.println("Enter how many kg of food:");
-                    choose3 = input.next();
-                }while (!"1234567890".contains(choose3) );
+
+                   player.printPlayersStoreAnimals();
+                   System.out.println("Enter number  Animal: ");
+                   choose1 = input.next();
+
+
+                   player.printPlayersStoreFoods();
+                   System.out.println("Enter number of food:");
+                   choose2 = input.next();
+
+
+                   System.out.println("Enter how many kg of food:");
+                   choose3 = input.next();
 
 
 //Invoke of method ICanEat overrides all the classes of animals
 //if the food is sufficient for the animal the health value of the animal in kilograms
 
-            if (player.animals.get(parseInt(choose1) - 1).ICanEat(player.foods.get(parseInt(choose2) - 1)))
-                player.foods.get(parseInt(choose2) - 1).Kg -= parseInt(choose3);
-                player.animals.get(parseInt(choose1) - 1).increaseHealth(10);
-                System.out.println(player.animals.get(parseInt(choose1) - 1).getHealth());
+                   if (player.animals.get(parseInt(choose1) - 1).ICanEat(player.foods.get(parseInt(choose2) - 1), parseInt(choose3))) {
+                       player.foods.get(parseInt(choose2) - 1).decreaseKg(parseInt(choose3));
+                       player.animals.get(parseInt(choose1) - 1).increaseHealth(10);
+                   }
+               }catch (Exception e){
+                   System.err.println("Invalid");
+               }
 
         }
 
@@ -118,7 +125,7 @@ public class Store implements Serializable {
             }
 
             if (food.getQuantity() >= 1 && food.getQuantity() <= 12) {
-                player.foods.get(index).setKg(food.getQuantity());
+                player.foods.get(index).increaseKg(food.getQuantity());
                     player.decreaseMoney(food.getPrice());
                 }
             }

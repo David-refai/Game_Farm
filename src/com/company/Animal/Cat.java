@@ -30,6 +30,7 @@ public class Cat extends Animal implements Serializable {
                 System.out.println("Iam eating....");
                 int increase = (int) (r.nextInt(21) + 10 * foodModifier);
                 setHealth(increase);
+
                 if (getHealth() > 100) {
                     health = 100;
                 }

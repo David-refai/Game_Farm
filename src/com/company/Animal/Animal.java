@@ -2,8 +2,11 @@ package com.company.Animal;
 
 
 import com.company.Food.Food;
-
+import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serializable;
+
 
 
 public abstract class Animal implements Serializable {
@@ -20,6 +23,7 @@ public abstract class Animal implements Serializable {
     protected boolean sick;
     protected double veterinarian;
     protected boolean treatment;
+    protected String printSick;
 
 
 
@@ -33,7 +37,7 @@ public abstract class Animal implements Serializable {
         this.veterinarian = 300;
         this.treatment = true;
         this.sick = false;
-        
+        this.printSick = "SICK";
 
     }
 
@@ -157,32 +161,33 @@ public abstract class Animal implements Serializable {
     public boolean setSick() {
 
         if (!sick) {
-            int breed = (int) (Math.random() * 6);
-            if (breed  == 0 ) {
-                if (health < 100)
+            int breed = (int) (Math.random() * 11);
+            if (breed  == 2 ) {
+                if (health < 50)
                     System.err.println(getAnimalName() + "  " + "is sick");
             decreaseHealth(10);
                     return sick = true;
 
-            } else
+            } else {
                 return sick = false;
+            }
         } else
             System.err.println(getAnimalName() + "  " + "is still sick");
-            return true;
-
+        return true;
     }
 
-    public boolean Hungry() {
+    public void Hungry() {
         if (!setSick() && health <30) {
             System.err.println(animalName + " is hungry");
-            return true;
         }
-        else
+    }
 
-            return false;
+    public String getPrintSick() {
+        if (isSick()){
+            return printSick;
         }
-
-
+       return "";
+    }
 }
 
 

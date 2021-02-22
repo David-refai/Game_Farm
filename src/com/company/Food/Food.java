@@ -35,7 +35,7 @@ else
         return Kg;
     }
 
-    public void setKg(int kg) {
+    public void decreaseKg(int kg) {
            this.Kg -= kg;
         }
 

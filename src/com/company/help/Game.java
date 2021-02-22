@@ -104,11 +104,12 @@ public  class Game implements Serializable {
                     System.out.println("{Animals}\t\t{Gender}\t\t{Type}\t\t{Health}");
                     System.out.println("-".repeat(50));
                     for (var listOfAnimals : player.animals) {
-                        System.out.println(count + ".\t" + listOfAnimals.getAnimalName() + "\t\t" + listOfAnimals.getGender() + "\t\t\t" + listOfAnimals.getType() + "\t\t" + listOfAnimals.getHealth() + "%");
-                        count++;
-                        System.out.println("-".repeat(50));
-                    }
 
+                        System.out.println(count + ". " + listOfAnimals.getAnimalName()+" "+ listOfAnimals.getPrintSick() +"\t\t\t" + listOfAnimals.getGender() + "\t\t" + listOfAnimals.getType() + "\t\t" + listOfAnimals.getHealth() + "%");
+                        count++;
+
+                    }
+                    System.out.println("-".repeat(50));
                     for (var food: player.foods) {
                         System.out.print(food.getNamesFood() + "\t" + food.getKg()+" kg\t\t");
 

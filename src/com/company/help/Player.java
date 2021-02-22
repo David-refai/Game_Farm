@@ -80,7 +80,8 @@ public class Player implements Serializable {
     }
    // The method of breeding animal
     public void breedAnimal ( Game game){
-        String choose1, choose2;
+        String choose1 = "", choose2 = "";
+
         if (animals.isEmpty()) {
             System.err.println("Buy an animal if you want to use this option!");
             game.firstMenu(this);
@@ -89,78 +90,72 @@ public class Player implements Serializable {
 
         try {
 
-        System.out.println("Enter first animal");
-        choose1 = input.next();
 
-
-
-        } catch (Exception e){
-            System.out.println("Enter a number please!");
-            breedAnimal(game);
-            return;
-        }
-        try {
+            System.out.println("Enter first animal");
+            choose1 = input.next();
 
             System.out.println("Enter second animal");
             choose2 = input.next();
 
-    } catch (Exception e){
-        System.out.println("Enter a number please!");
-        breedAnimal(game);
-        return;
-    }
+            String gender1 = animals.get(parseInt(choose1) - 1).getGender();
+            String gender2 = animals.get(parseInt(choose2) - 1).getGender();
+
+            String type1 = animals.get(parseInt(choose1) - 1).getType();
+            String type2 = animals.get(parseInt(choose2) - 1).getType();
 
 
-        String gender1 = animals.get(parseInt(choose1)-1).getGender();
-        String gender2 = animals.get(parseInt(choose2)-1).getGender();
-
-        String type1 = animals.get(parseInt(choose1)-1).getType();
-        String type2 = animals.get(parseInt(choose2)-1).getType();
-
-        // The same type of animal and different gender with no max breed can give the player the chance
-        // of the same breed of animal
-        if (!gender1.equals(gender2) && type1.equals(type2)) {
-        if (animals.get(parseInt(choose1)-1).getMax_breed()> 0 && animals.get(parseInt(choose1)-1).getMax_breed() > 0) {
+            // The same type of animal and different gender with no max breed can give the player the chance
+            // of the same breed of animal
+            if (!gender1.equals(gender2) && type1.equals(type2)) {
+                if (animals.get(parseInt(choose1) - 1).getMax_breed() > 0 && animals.get(parseInt(choose1) - 1).getMax_breed() > 0) {
 // It is randomly calculated the possible number of a breed the player can receive
-        int bound = animals.get(parseInt(choose1)-1).getPossibleBreed();
+                    int bound = animals.get(parseInt(choose1) - 1).getPossibleBreed();
 
-        Random r = new Random();
-        int breed = r.nextInt( bound + 1);
+                    Random r = new Random();
+                    int breed = r.nextInt(bound + 1);
 
                     for (int i = 0; i < breed; i++) {
-                     randGender = animalsGenderRandom();
-                    String randName = chooseAnimalName();
-                    switch (type1) {
-                        case "Lion" ->  animals.add( new Lion(randName, randGender));
-                        case "Sheep" -> animals.add( new Sheep(randName, randGender));
-                        case "Cow" -> animals.add( new Cow(randName, randGender));
-                        case "Rabbit" -> animals.add( new Rabbit(randName, randGender));
-                        case "Cat" -> animals.add( new Cat(randName, randGender));
-                        default -> System.err.println(" It is an invalid option");
+                        randGender = animalsGenderRandom();
+                        String randName = chooseAnimalName();
+                        switch (type1) {
+                            case "Lion" -> animals.add(new Lion(randName, randGender));
+                            case "Sheep" -> animals.add(new Sheep(randName, randGender));
+                            case "Cow" -> animals.add(new Cow(randName, randGender));
+                            case "Rabbit" -> animals.add(new Rabbit(randName, randGender));
+                            case "Cat" -> animals.add(new Cat(randName, randGender));
+                            default -> System.err.println(" It is an invalid option");
+                        }
+                        // The player receives a 50 % chance of a successful breeding
                     }
-                    // The player receives a 50 % chance of a successful breeding
-                }if (breed != 0)
-            System.out.println("breed successfully :)");
-        else
-            System.out.println("good luck next time");
-            animals.get(parseInt(choose1)-1).decreaseMaxBreed(1);
-            animals.get(parseInt(choose2)-1).decreaseMaxBreed(1);
-            printPlayersStoreAnimals();
-        }
-        else
-            {
-            System.out.println("you cannot breed any more");
-        }
-        }
-        else
-            System.err.println("They are not matching ");
+                    if (breed != 0)
+                        System.out.println("breed successfully :)");
+                    else
+                        System.out.println("good luck next time");
+                    animals.get(parseInt(choose1) - 1).decreaseMaxBreed(1);
+                    animals.get(parseInt(choose2) - 1).decreaseMaxBreed(1);
 
+                } else {
+                    System.out.println("you cannot breed any more");
+                }
+            } else
+                System.err.println("They are not matching ");
+        }catch (Exception e){
+            System.err.println("Invalid");
+            breedAnimal(game);
+        }
     }
+
+
+
     // The method gives the gender automatically with a 50 % chance
     public  String animalsGenderRandom () {
          mat = new String[]{"Female", "Male"};
         return mat[new Random().nextInt(2)];
     }
+
+
+
+
     // Name is automatically generated or can be chosen by hand
     public  String chooseAnimalName () {
         String in1;
@@ -172,30 +167,39 @@ public class Player implements Serializable {
             else
                 return Store.maleNames();
     }
+
+
+
     // When the animal get sick the player can choose this option with a 50 % of the animal surviving
     // The price is accorded o the individual class of animal
     public void Veterinarian(Game game) {
         Random r = new Random();
-        int choose1 ;
+        int choose1 = 0;
         if (animals.isEmpty()) {
             System.err.println("Buy animals if you want to use this option!");
             game.firstMenu(this);
         }
         printPlayersStoreAnimals();
 
+        try {
 
-        System.out.println("Enter number of animal");
-        choose1 = input.nextInt();
 
-        if (getMoney() < animals.get(choose1-1).getVeterinarian())
-            System.out.println("You don't have enough money..");
-        if (!animals.get(choose1 - 1).isSick()) {
-            System.out.println("This animal is not sick and does not need to be treated ");
-            //decrease the player's money anyway
-             decreaseMoney(animals.get(choose1 -1).getVeterinarian());
-        } else  {
+            System.out.println("Enter number of animal");
+            choose1 = input.nextInt();
+        } catch (Exception e) {
+            System.err.println("Enter correct number please!");
+        }
 
-            int breed = r.nextInt(2);
+
+
+            if (getMoney() < animals.get(choose1 - 1).getVeterinarian())
+                System.out.println("You don't have enough money..");
+            if (!animals.get(choose1 - 1).isSick()) {
+                System.out.println("This animal is not sick and does not need to be treated ");
+                //decrease the player's money anyway
+                decreaseMoney(animals.get(choose1 - 1).getVeterinarian());
+            }else  {
+                int breed = r.nextInt(2);
             if (breed != 0){
                 decreaseMoney(animals.get(choose1 -1).getVeterinarian());
 
