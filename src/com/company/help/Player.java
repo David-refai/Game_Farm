@@ -23,6 +23,8 @@ public class Player implements Serializable {
     protected Scanner input;
     protected String[] mat;
     protected String randGender;
+
+
     public Player(String name) {
         this.name = name;
         this.money = 1000;
@@ -49,6 +51,7 @@ public class Player implements Serializable {
     public void addMoney(double money){
         this.money += money;
     }
+
     public void decreaseMoney(double money) {
         this.money -= money;
     }
@@ -56,6 +59,7 @@ public class Player implements Serializable {
     public void addAnimal(Animal animal){
             animals.add(animal);
     }
+
     public void printPlayersStoreAnimals() {
         // print the menu of order
         clear();
@@ -67,8 +71,8 @@ public class Player implements Serializable {
             System.out.println(getName() + "'s list" + "\t\t\t\t\t\t" + getMoney() + "\n{Animals}\t\t\t{Gender}\t\t\t{Type}\t\t\t{Health}\t\t\t{Age}\t\t\t{Current price}\t\t\t{Health value}");
             System.out.println("-".repeat(120));
             for (var listOfAnimals : animals) {
-                System.out.println(counter + ". " + listOfAnimals.getAnimalName() + "\t\t\t " + listOfAnimals.getGender() + "\t\t\t\t" + listOfAnimals.getType() + "\t\t\t\t" + listOfAnimals.getHealth() + "%" + "\t\t\t\t"
-                        + listOfAnimals.getAge() + "\t\t\t\t" + listOfAnimals.getPrice() + "\t\t\t\t" + listOfAnimals.getHealthValue());
+                System.out.println(counter + ". " + listOfAnimals.getAnimalName() + "\t\t\t\t" + listOfAnimals.getGender() + "\t\t\t\t" + listOfAnimals.getType() + "\t\t\t\t" + listOfAnimals.getHealth() + "%" + "\t\t\t\t"
+                        + listOfAnimals.getAge() + "\t\t\t\t " + listOfAnimals.getPrice() + "\t\t\t\t " + listOfAnimals.getHealthValue());
                 counter++;
 
             }System.out.println("-".repeat(120));
@@ -76,27 +80,37 @@ public class Player implements Serializable {
     }
    // The method of breeding animal
     public void breedAnimal ( Game game){
-        String choose1 = "", choose2 = "";
+        String choose1, choose2;
         if (animals.isEmpty()) {
             System.err.println("Buy an animal if you want to use this option!");
             game.firstMenu(this);
         }
        printPlayersStoreAnimals();
 
-try {
+        try {
 
-
-    do {
         System.out.println("Enter first animal");
         choose1 = input.next();
 
-    } while (!"1234567890".contains(choose1) || parseInt(choose1) != animals.size()-1);
 
-    do {
-        System.out.println("Enter second animal");
-        choose2 = input.next();
-    } while (!"1234567890".contains(choose2) || parseInt(choose2) < animals.size());
-}catch (Exception ignored){}
+
+        } catch (Exception e){
+            System.out.println("Enter a number please!");
+            breedAnimal(game);
+            return;
+        }
+        try {
+
+            System.out.println("Enter second animal");
+            choose2 = input.next();
+
+    } catch (Exception e){
+        System.out.println("Enter a number please!");
+        breedAnimal(game);
+        return;
+    }
+
+
         String gender1 = animals.get(parseInt(choose1)-1).getGender();
         String gender2 = animals.get(parseInt(choose2)-1).getGender();
 
@@ -177,21 +191,20 @@ try {
             System.out.println("You don't have enough money..");
         if (!animals.get(choose1 - 1).isSick()) {
             System.out.println("This animal is not sick and does not need to be treated ");
-            decreaseMoney(animals.get(choose1 -1).getVeterinarian());
+            //decrease the player's money anyway
+             decreaseMoney(animals.get(choose1 -1).getVeterinarian());
         } else  {
 
             int breed = r.nextInt(2);
             if (breed != 0){
                 decreaseMoney(animals.get(choose1 -1).getVeterinarian());
 
-                float foodModifier = animals.get(choose1 - 1).health * 3/3f;
+                float foodModifier = animals.get(choose1 - 1).getHealth() * 3/3f;
                 int increase = (int) (r.nextInt(21) + 10 * foodModifier);
                 animals.get(choose1 - 1).increaseHealth(increase);
                 animals.get(choose1 -1).isTreatment();
 
-                    if (animals.get(choose1 - 1).getHealth() > 100)
-                        animals.get(choose1 - 1).health = 100;
-                        System.out.println("The treatment has been done. ");
+                System.out.println("The treatment has been done. ");
 
 
 
@@ -224,6 +237,7 @@ try {
             System.err.println("Your animal is dead");
         }
     }
+
     public void printPlayersStoreFoods() {
         boolean t = false;
         var counter = 1;
@@ -249,6 +263,7 @@ try {
             System.out.println("You have no Foods yet...");
 
         }
+
         }
 
 

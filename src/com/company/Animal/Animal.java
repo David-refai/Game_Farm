@@ -22,18 +22,6 @@ public abstract class Animal implements Serializable {
     protected boolean treatment;
 
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public double getVeterinarian() {
-        return veterinarian;
-    }
-
-
-    public void isTreatment() {
-            sick = false;
-    }
 
 
 
@@ -49,6 +37,18 @@ public abstract class Animal implements Serializable {
 
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public double getVeterinarian() {
+        return veterinarian;
+    }
+
+
+    public void isTreatment() {
+        sick = false;
+    }
 
     public double getHealthValue() {
         return healthValue;
@@ -60,7 +60,7 @@ public abstract class Animal implements Serializable {
     }
 
 
-    public abstract boolean ICanEat(Food food);// Abstract method when every animal can decides their foods
+    public abstract boolean ICanEat(Food food, int kilogram);// Abstract method when every animal can decides their foods
 
     public int getMax_breed() {
         return max_breed;
@@ -123,6 +123,8 @@ public abstract class Animal implements Serializable {
     }
 
     public int getHealth() {
+        if (health > 100)
+            health = 100;
         return health;
     }
 
@@ -155,8 +157,8 @@ public abstract class Animal implements Serializable {
     public boolean setSick() {
 
         if (!sick) {
-            int breed = (int) (Math.random() * 150) + 1;
-            if (breed < 20 ) {
+            int breed = (int) (Math.random() * 6);
+            if (breed  == 0 ) {
                 if (health < 100)
                     System.err.println(getAnimalName() + "  " + "is sick");
             decreaseHealth(10);
@@ -171,14 +173,17 @@ public abstract class Animal implements Serializable {
     }
 
     public boolean Hungry() {
-        if (!setSick() && health < 30) {
+        if (!setSick() && health <30) {
             System.err.println(animalName + " is hungry");
             return true;
         }
         else
+
             return false;
         }
-    }
+
+
+}
 
 
 

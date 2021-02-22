@@ -59,12 +59,16 @@ public  class Game implements Serializable {
 
         }
         public void howManyRound () {
-            do {
-                System.out.println("How many round would you like");
-                System.out.println("Enter number between 5 - 30 please! ");
-                rounds = input.next();
-            } while ( parseInt(rounds) < 5 || parseInt(rounds) > 30 );
-
+            try {
+                do {
+                    System.out.println("How many round would you like");
+                    System.out.println("Enter number between 5 - 30 please! ");
+                    rounds = input.next();
+                } while (parseInt(rounds) < 5 || parseInt(rounds) > 30);
+            }catch (Exception e){
+                System.out.println("Enter a number please!");
+                howManyRound();
+            }
 
         }
          public void playerName () {

@@ -1,7 +1,7 @@
 package com.company.Food;
 
 
-import java.io.ObjectInputStream;
+
 import java.io.Serializable;
 
 public abstract class Food implements Serializable {
@@ -10,22 +10,20 @@ public abstract class Food implements Serializable {
     private double price;
     public int Kg ;
     private int quantity;
+
+
     public Food(String namesFood, int price) {
-        Kg = 0;
-        this.namesFood = namesFood;
+        Kg = 0;this.namesFood = namesFood;
         this.price = price;
 
     }
 
 
-    public void setKg(int kg) {
+    public void increaseKg(int kg) {
     if (kg >= 1) {
-
             this.Kg += kg;
         }
-
 else
-
         System.out.println("You shopped no thing ");
     }
 
@@ -36,6 +34,12 @@ else
     public int getKg() {
         return Kg;
     }
+
+    public void setKg(int kg) {
+           this.Kg -= kg;
+        }
+
+
 
     public int getQuantity() {
         return quantity;
@@ -54,12 +58,7 @@ else
 
         return this.price * getKg();
     }
-    private void readObject(ObjectInputStream i){
 
-    }
-    private void writeObject(ObjectInputStream o){
-
-    }
 
     }
 
