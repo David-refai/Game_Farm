@@ -82,8 +82,8 @@ public class Store implements Serializable {
                 }while (!"1234567890".contains(choose3) );
 
 
-//Invoke of method I can eat overrides all the classes of animals
-//if the food is sufficient for the animal the weight of the animal in kilograms
+//Invoke of method ICanEat overrides all the classes of animals
+//if the food is sufficient for the animal the health value of the animal in kilograms
 
             if (player.animals.get(parseInt(choose1) - 1).ICanEat(player.foods.get(parseInt(choose2) - 1)))
                 player.foods.get(parseInt(choose2) - 1).Kg -= parseInt(choose3);
